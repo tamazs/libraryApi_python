@@ -1,16 +1,35 @@
-# This is a sample Python script.
+from fastapi import FastAPI
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from models.BookModel import Book
+from models.LoanModel import Loan
+from models.MemberModel import Member
 
+app = FastAPI()
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+@app.post("/books", response_model=Book)
+def add_book(book: Book):
+    return book
 
+@app.get("/books/{isbn}", response_model=Book)
+def get_book(isbn: str):
+    # dummy book since no db
+    return Book(
+        isbn=isbn,
+        title="Example Book",
+        author="Author Name",
+        publication_year=2020,
+        available_copies=5,
+        total_copies=5
+    )
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+@app.post("/members", response_model=Member)
+def add_member(member: Member):
+    return member
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+@app.post("loans", response_model=Loan)
+def add_loan(loan: Loan):
+    return loan
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

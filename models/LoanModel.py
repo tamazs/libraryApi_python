@@ -4,7 +4,7 @@ from uuid import UUID, uuid4
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 
-class LoanModel(BaseModel):
+class Loan(BaseModel):
     loan_id: UUID = Field(default_factory=uuid4)
     isbn: str
     member_id: UUID
